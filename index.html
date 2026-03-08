@@ -954,18 +954,76 @@
     .gateway-card:nth-child(4), .gateway-card:nth-child(5) { display: none; }
   }
   @media (max-width: 768px) {
-    nav { padding: 20px 24px; }
-    nav.scrolled { padding: 14px 24px; }
+    /* NAV */
+    nav { padding: 16px 20px; }
+    nav.scrolled { padding: 12px 20px; }
     .nav-links { display: none; }
-    .hero-title { font-size: 3.5rem; }
-    .gateway { padding: 80px 24px; }
-    .gateway-grid { grid-template-columns: 1fr 1fr; }
-    .about-section { grid-template-columns: 1fr; gap: 40px; }
-    .venue-section { grid-template-columns: 1fr; }
-    .footer-top { grid-template-columns: 1fr; gap: 40px; }
+    .nav-logo img { height: 60px; }
+
+    /* HERO */
+    .hero { min-height: 100svh; padding: 0 20px; justify-content: center; }
+    .hero-title { font-size: clamp(3rem, 14vw, 4.5rem); line-height: 0.95; }
+    .hero-eyebrow { font-size: 0.55rem; letter-spacing: 0.3em; text-align: center; padding: 0 10px; }
+    .hero-subtitle { font-size: 0.55rem; letter-spacing: 0.2em; text-align: center; margin-top: 20px; }
+    .hero-countdown { gap: 8px; margin-top: 28px; }
+    .countdown-num { font-size: 2rem; }
+    .countdown-label { font-size: 0.45rem; }
+    .countdown-sep { font-size: 1.2rem; }
+
+    /* GATEWAY CARDS */
+    .gateway { padding: 60px 16px; }
+    .gateway-grid { grid-template-columns: 1fr; gap: 16px; }
+    .gateway-card { height: 420px; }
+    .gateway-card:nth-child(4), .gateway-card:nth-child(5) { display: block; }
+    .gateway-card-content { padding: 24px; }
+    .gateway-card-title { font-size: 2rem; }
+
+    /* SHOW DATES */
+    .show-dates-section { padding: 60px 20px; }
+    .show-dates-inner { padding: 0; }
+    .event-item { grid-template-columns: 80px 1fr auto; gap: 16px; padding: 24px 0; }
+    .event-date-num { font-size: 2.2rem; }
+    .event-name { font-size: 1.1rem; }
+    .event-tag { font-size: 0.45rem; padding: 5px 10px; }
+    .section-title { font-size: clamp(2rem, 8vw, 3rem); }
+
+    /* ABOUT */
+    .about-section { grid-template-columns: 1fr; gap: 40px; padding: 60px 20px; }
+    .about-stats { grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 32px; }
+    .stat-num { font-size: 2.8rem; }
+
+    /* GALLERY */
+    .gallery-grid { grid-template-columns: 1fr 1fr; gap: 4px; }
+
+    /* VENUE */
+    .venue-section { grid-template-columns: 1fr; padding: 60px 20px; gap: 32px; }
+    .venue-image { height: 280px; }
+    .venue-features { grid-template-columns: 1fr 1fr; }
+
+    /* FOUNDER */
+    .founder-inner { grid-template-columns: 1fr; gap: 40px; }
+    .founder-section { padding: 60px 20px; }
+    .founder-media { height: 400px; }
+
+    /* FORMS */
+    .forms-section { padding: 60px 20px; }
     .form-row { grid-template-columns: 1fr; }
-    .show-dates-section { padding: 80px 24px; }
-    .forms-section { padding: 80px 24px; }
+    .forms-grid { grid-template-columns: 1fr; gap: 16px; }
+
+    /* FOOTER */
+    .footer-top { grid-template-columns: 1fr; gap: 32px; }
+    footer { padding: 60px 20px 32px; }
+
+    /* PROCESS / MISC */
+    .section-header { flex-direction: column; gap: 16px; }
+  }
+
+  @media (max-width: 480px) {
+    .hero-title { font-size: clamp(2.5rem, 16vw, 3.5rem); }
+    .gateway-card { height: 380px; }
+    .event-item { grid-template-columns: 70px 1fr; gap: 12px; }
+    .event-tag { display: none; }
+    .gallery-grid { grid-template-columns: 1fr; }
   }
 
   /* FOUNDER SECTION */
@@ -1133,7 +1191,7 @@ function triggerArabicTranslate() {
   <canvas id="heroCanvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;"></canvas>
 
   <p class="hero-eyebrow" style="font-weight:700;font-size:0.9rem;letter-spacing:0.45em;">Qatar's Premier Fashion Platform &nbsp;·&nbsp; Est. 2022</p>
-  <img src="./images/img_04.png" alt="Doha Fashion Show" style="height:clamp(320px,45vw,520px);width:auto;position:relative;z-index:1;mix-blend-mode:screen;opacity:0;animation:fadeUp 1.2s 0.5s forwards;">
+  <h1 class="hero-title">Doha<br><em>Fashion</em><br>Show</h1>
   <p class="hero-subtitle">Season IV &nbsp;·&nbsp; Mondrian Doha &nbsp;·&nbsp; 30 March–1 April 2026</p>
   <div class="hero-countdown" id="countdown">
     <div class="countdown-item">
