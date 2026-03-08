@@ -1083,6 +1083,28 @@
   }
 
 </style>
+
+<!-- Google Translate -->
+<div id="google_translate_element" style="display:none"></div>
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    includedLanguages: 'ar',
+    autoDisplay: false
+  }, 'google_translate_element');
+}
+function triggerArabicTranslate() {
+  var el = document.querySelector('.goog-te-combo');
+  if (el) {
+    el.value = 'ar';
+    el.dispatchEvent(new Event('change'));
+  } else {
+    setTimeout(triggerArabicTranslate, 300);
+  }
+}
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </head>
 <body>
 
@@ -1101,7 +1123,7 @@
     <li><a href="#media">Media</a></li>
     <li><a href="#gallery">Gallery</a></li>
   </ul>
-  <a href="?lang=ar" class="nav-lang">عربي</a>
+  <a href="#" class="nav-lang" onclick="triggerArabicTranslate();return false;">عربي</a>
 </nav>
 
 <!-- HERO -->
@@ -1201,7 +1223,7 @@
     <!-- MEDIA -->
     <div class="gateway-card reveal" id="media">
       <div class="gateway-card-bg"></div>
-      <div class="gateway-card-img" style="background-image:url('./images/img_09.webp')"></div>
+      <div class="gateway-card-img" style="background-image:url('./images/gold-dress.png')"></div>
       <div class="gateway-card-overlay"></div>
       <div class="gateway-card-content">
         <span class="gateway-card-num">05</span>
@@ -1364,15 +1386,15 @@
   <div>
     <p class="section-eyebrow">The Stage</p>
     <h2 class="section-title">Our <em>Venue</em></h2>
-    <p class="about-body"><a href="https://www.mandarinoriental.com" target="_blank" style="color:var(--gold);text-decoration:none;">Mondrian Doha</a> — a setting as extraordinary as the fashion it hosts. Stunning design-led interiors, world-class amenities, and an electric atmosphere create the perfect cinematic backdrop.</p>
+    <p class="about-body">Situated at <strong style="color:var(--gold);">The West Bay Lagoon, Qatar</strong> — one of Doha's most iconic waterfront addresses. Our ballroom hosts up to <strong style="color:var(--gold);">300 guests</strong>, delivering an intimate yet grand runway experience surrounded by stunning lagoon views.</p>
     <div class="venue-features">
       <div class="venue-feature">
-        <p class="venue-feature-label">Setting</p>
-        <p class="venue-feature-val">Waterfront Backdrop</p>
+        <p class="venue-feature-label">Seating Capacity</p>
+        <p class="venue-feature-val">300 Guests</p>
       </div>
       <div class="venue-feature">
         <p class="venue-feature-label">Location</p>
-        <p class="venue-feature-val">The Pearl, Qatar</p>
+        <p class="venue-feature-val">West Bay Lagoon, Qatar</p>
       </div>
       <div class="venue-feature">
         <p class="venue-feature-label">Accommodation</p>
