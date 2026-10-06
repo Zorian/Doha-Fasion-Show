@@ -662,6 +662,11 @@
     cursor: pointer; transition: background 0.25s, transform 0.25s;
   }
   .gc-dot.active { background: var(--gold); transform: scale(1.25); }
+  .gc-dots.gc-count {
+    font-family: 'Montserrat', sans-serif; font-size: 0.68rem; letter-spacing: 0.2em;
+    color: var(--off-white); background: rgba(0,0,0,0.45); padding: 6px 12px;
+    font-variant-numeric: tabular-nums;
+  }
 
   /* Gallery placeholder */
   .gallery-placeholder {
@@ -1621,9 +1626,28 @@ function triggerArabicTranslate() {
       <button class="gc-arrow gc-prev" id="gcPrev" aria-label="Previous">&#8249;</button>
       <div class="gc-viewport">
         <div class="gc-track" id="gcTrack">
-          <div class="gc-slide"><img src="./images/img_12.jpg" alt="DFS Look 2"></div>
-          <div class="gc-slide"><img src="./images/img_15.jpg" alt="DFS Look 5"></div>
-          <div class="gc-slide"><img src="./images/navy-dress.png" alt="DFS Look 6"></div>
+          <div class="gc-slide"><img src="./images/london-01.jpg" alt="Doha Fashion Show runway look 1" decoding="async"></div>
+          <div class="gc-slide"><img src="./images/london-02.jpg" alt="Doha Fashion Show runway look 2" decoding="async"></div>
+          <div class="gc-slide"><img data-src="./images/london-03.jpg" alt="Doha Fashion Show runway look 3" decoding="async"></div>
+          <div class="gc-slide"><img data-src="./images/london-04.jpg" alt="Doha Fashion Show runway look 4" decoding="async"></div>
+          <div class="gc-slide"><img data-src="./images/london-05.jpg" alt="Doha Fashion Show runway look 5" decoding="async"></div>
+          <div class="gc-slide"><img data-src="./images/london-06.jpg" alt="Doha Fashion Show runway look 6" decoding="async"></div>
+          <div class="gc-slide"><img data-src="./images/london-07.jpg" alt="Doha Fashion Show runway look 7" decoding="async"></div>
+          <div class="gc-slide"><img data-src="./images/london-08.jpg" alt="Doha Fashion Show runway look 8" decoding="async"></div>
+          <div class="gc-slide"><img data-src="./images/london-09.jpg" alt="Doha Fashion Show runway look 9" decoding="async"></div>
+          <div class="gc-slide"><img data-src="./images/london-10.jpg" alt="Doha Fashion Show runway look 10" decoding="async"></div>
+          <div class="gc-slide"><img data-src="./images/london-11.jpg" alt="Doha Fashion Show runway look 11" decoding="async"></div>
+          <div class="gc-slide"><img data-src="./images/london-12.jpg" alt="Doha Fashion Show runway look 12" decoding="async"></div>
+          <div class="gc-slide"><img data-src="./images/london-13.jpg" alt="Doha Fashion Show runway look 13" decoding="async"></div>
+          <div class="gc-slide"><img data-src="./images/london-14.jpg" alt="Doha Fashion Show runway look 14" decoding="async"></div>
+          <div class="gc-slide"><img data-src="./images/london-15.jpg" alt="Doha Fashion Show runway look 15" decoding="async"></div>
+          <div class="gc-slide"><img data-src="./images/london-16.jpg" alt="Doha Fashion Show runway look 16" decoding="async"></div>
+          <div class="gc-slide"><img data-src="./images/london-17.jpg" alt="Doha Fashion Show runway look 17" decoding="async"></div>
+          <div class="gc-slide"><img data-src="./images/london-18.jpg" alt="Doha Fashion Show runway look 18" decoding="async"></div>
+          <div class="gc-slide"><img data-src="./images/london-19.jpg" alt="Doha Fashion Show runway look 19" decoding="async"></div>
+          <div class="gc-slide"><img data-src="./images/img_12.jpg" alt="Doha Fashion Show runway look 20" decoding="async"></div>
+          <div class="gc-slide"><img data-src="./images/img_15.jpg" alt="Doha Fashion Show runway look 21" decoding="async"></div>
+          <div class="gc-slide"><img data-src="./images/navy-dress.png" alt="Doha Fashion Show runway look 22" decoding="async"></div>
         </div>
       </div>
       <button class="gc-arrow gc-next" id="gcNext" aria-label="Next">&#8250;</button>
@@ -2063,16 +2087,28 @@ function triggerArabicTranslate() {
     const dotsWrap = document.getElementById('gcDots');
     if (!track || !slides.length) return;
     let i = 0;
-    slides.forEach((_,n)=>{
+    const total = slides.length;
+    const useCount = total > 10;
+    if (useCount) { dotsWrap.classList.add('gc-count'); }
+    else slides.forEach((_,n)=>{
       const d=document.createElement('div'); d.className='gc-dot'+(n===0?' active':'');
       d.addEventListener('click',()=>go(n)); dotsWrap.appendChild(d);
     });
     const dots = Array.from(dotsWrap.children);
-    function go(n){
-      i=(n+slides.length)%slides.length;
-      track.style.transform='translateX('+(-i*100)+'%)';
-      dots.forEach((d,k)=>d.classList.toggle('active',k===i));
+    // Load images only as they come up, to keep the page light
+    function load(n){
+      const img = slides[(n+total)%total].querySelector('img[data-src]');
+      if (img) { img.src = img.dataset.src; img.removeAttribute('data-src'); }
     }
+    function pad(n){ return String(n).padStart(2,'0'); }
+    function go(n){
+      i=(n+total)%total;
+      load(i); load(i+1); load(i-1);
+      track.style.transform='translateX('+(-i*100)+'%)';
+      if (useCount) dotsWrap.textContent = pad(i+1)+' / '+pad(total);
+      else dots.forEach((d,k)=>d.classList.toggle('active',k===i));
+    }
+    go(0);
     document.getElementById('gcPrev').addEventListener('click',()=>go(i-1));
     document.getElementById('gcNext').addEventListener('click',()=>go(i+1));
     // keyboard when carousel in view
