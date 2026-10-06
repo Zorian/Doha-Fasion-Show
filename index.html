@@ -609,37 +609,32 @@
     margin: 0 auto;
   }
 
-  .gallery-carousel {
-    position: relative;
-    margin-top: 70px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 28px;
+  /* Full-bleed sideways rail; portraits shown uncropped at a fixed height */
+  .g-rail {
+    display: flex; gap: 10px;
+    width: 100vw; margin: 60px 0 0 calc(50% - 50vw);
+    padding: 0 60px 14px;
+    overflow-x: auto; overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity; scroll-padding-left: 60px;
+    scrollbar-width: thin; scrollbar-color: var(--gold) rgba(245,240,232,0.08);
+    cursor: grab;
   }
-  /* Sized to a portrait frame so runway shots show head to toe, uncropped */
-  .gc-viewport {
-    position: relative;
-    overflow: hidden;
-    flex: 0 1 auto;
-    width: min(100%, 480px, calc(76vh * 2 / 3));
-    border-radius: 2px;
+  .g-rail.dragging { cursor: grabbing; scroll-snap-type: none; }
+  .g-rail:focus-visible { outline: 1px solid var(--gold); outline-offset: 4px; }
+  .g-rail img {
+    flex: none; height: min(72vh, 720px); width: auto; aspect-ratio: 2/3;
+    object-fit: cover; background: #111; scroll-snap-align: start;
+    user-select: none; -webkit-user-drag: none;
   }
-  .gc-track {
-    display: flex;
-    transition: transform 0.55s cubic-bezier(0.65,0,0.35,1);
-    will-change: transform;
+  .g-rail::-webkit-scrollbar { height: 6px; }
+  .g-rail::-webkit-scrollbar-track { background: rgba(245,240,232,0.06); }
+  .g-rail::-webkit-scrollbar-thumb { background: var(--gold); }
+  .g-rail-foot {
+    max-width: 1400px; margin: 22px auto 0;
+    display: flex; justify-content: space-between; align-items: center;
   }
-  .gc-slide {
-    min-width: 100%;
-    aspect-ratio: 2/3;
-    background: #0d0d0d;
-  }
-  .gc-slide img {
-    width: 100%; height: 100%;
-    object-fit: contain;
-    display: block;
-  }
+  .g-rail-foot > div { display: flex; gap: 12px; }
+  .g-rail-count { font-size: 0.68rem; letter-spacing: 0.2em; color: var(--gray); font-variant-numeric: tabular-nums; }
   .gc-arrow {
     flex-shrink: 0;
     background: rgba(0,0,0,0.3);
@@ -649,24 +644,8 @@
     font-size: 1.5rem; cursor: pointer;
     display: flex; align-items: center; justify-content: center;
     transition: background 0.25s, border-color 0.25s, color 0.25s;
-    z-index: 2;
   }
-  .gc-arrow:hover { background: var(--gold); border-color: var(--gold); color: #fff; }
-  .gc-dots {
-    position: absolute; bottom: 18px; left: 50%; transform: translateX(-50%);
-    display: flex; gap: 9px; z-index: 3;
-  }
-  .gc-dot {
-    width: 8px; height: 8px; border-radius: 50%;
-    background: rgba(245,240,232,0.35);
-    cursor: pointer; transition: background 0.25s, transform 0.25s;
-  }
-  .gc-dot.active { background: var(--gold); transform: scale(1.25); }
-  .gc-dots.gc-count {
-    font-family: 'Montserrat', sans-serif; font-size: 0.68rem; letter-spacing: 0.2em;
-    color: var(--off-white); background: rgba(0,0,0,0.45); padding: 6px 12px;
-    font-variant-numeric: tabular-nums;
-  }
+  .gc-arrow:hover, .gc-arrow:focus-visible { background: var(--gold); border-color: var(--gold); color: #fff; outline: none; }
 
   /* Gallery placeholder */
   .gallery-placeholder {
@@ -1116,8 +1095,10 @@
     .stat-num { font-size: 2.8rem; }
 
     /* GALLERY */
-    .gallery-carousel { gap: 6px; margin-top: 50px; }
-    .gc-arrow { width: 40px; height: 40px; font-size: 1.2rem; }
+    .g-rail { padding: 0 20px 12px; scroll-padding-left: 20px; margin-top: 40px; gap: 8px; }
+    .g-rail img { height: 62vh; }
+    .g-rail-foot { padding: 0 20px; }
+    .gc-arrow { width: 42px; height: 42px; font-size: 1.2rem; }
 
     /* VENUE */
     .venue-section { grid-template-columns: 1fr; padding: 60px 20px; gap: 32px; }
@@ -1622,64 +1603,64 @@ function triggerArabicTranslate() {
       <p class="section-eyebrow" style="font-size:0.85rem;font-weight:600;letter-spacing:0.55em;">The Runway</p>
       <h2 class="section-title" style="text-align:center">Gallery</h2>
     </div>
-    <div class="gallery-carousel reveal" id="galleryCarousel">
-      <button class="gc-arrow gc-prev" id="gcPrev" aria-label="Previous">&#8249;</button>
-      <div class="gc-viewport">
-        <div class="gc-track" id="gcTrack">
-          <div class="gc-slide"><img src="./images/london-01.jpg" alt="Doha Fashion Show runway look 1" decoding="async"></div>
-          <div class="gc-slide"><img src="./images/london-02.jpg" alt="Doha Fashion Show runway look 2" decoding="async"></div>
-          <div class="gc-slide"><img data-src="./images/london-03.jpg" alt="Doha Fashion Show runway look 3" decoding="async"></div>
-          <div class="gc-slide"><img data-src="./images/london-04.jpg" alt="Doha Fashion Show runway look 4" decoding="async"></div>
-          <div class="gc-slide"><img data-src="./images/london-40.jpg" alt="Doha Fashion Show runway look 5" decoding="async"></div>
-          <div class="gc-slide"><img data-src="./images/london-05.jpg" alt="Doha Fashion Show runway look 6" decoding="async"></div>
-          <div class="gc-slide"><img data-src="./images/london-06.jpg" alt="Doha Fashion Show runway look 7" decoding="async"></div>
-          <div class="gc-slide"><img data-src="./images/london-07.jpg" alt="Doha Fashion Show runway look 8" decoding="async"></div>
-          <div class="gc-slide"><img data-src="./images/london-08.jpg" alt="Doha Fashion Show runway look 9" decoding="async"></div>
-          <div class="gc-slide"><img data-src="./images/london-41.jpg" alt="Doha Fashion Show runway look 10" decoding="async"></div>
-          <div class="gc-slide"><img data-src="./images/london-09.jpg" alt="Doha Fashion Show runway look 11" decoding="async"></div>
-          <div class="gc-slide"><img data-src="./images/london-10.jpg" alt="Doha Fashion Show runway look 12" decoding="async"></div>
-          <div class="gc-slide"><img data-src="./images/london-11.jpg" alt="Doha Fashion Show runway look 13" decoding="async"></div>
-          <div class="gc-slide"><img data-src="./images/london-12.jpg" alt="Doha Fashion Show runway look 14" decoding="async"></div>
-          <div class="gc-slide"><img data-src="./images/london-42.jpg" alt="Doha Fashion Show runway look 15" decoding="async"></div>
-          <div class="gc-slide"><img data-src="./images/london-13.jpg" alt="Doha Fashion Show runway look 16" decoding="async"></div>
-          <div class="gc-slide"><img data-src="./images/london-14.jpg" alt="Doha Fashion Show runway look 17" decoding="async"></div>
-          <div class="gc-slide"><img data-src="./images/london-15.jpg" alt="Doha Fashion Show runway look 18" decoding="async"></div>
-          <div class="gc-slide"><img data-src="./images/london-16.jpg" alt="Doha Fashion Show runway look 19" decoding="async"></div>
-          <div class="gc-slide"><img data-src="./images/london-43.jpg" alt="Doha Fashion Show runway look 20" decoding="async"></div>
-          <div class="gc-slide"><img data-src="./images/london-17.jpg" alt="Doha Fashion Show runway look 21" decoding="async"></div>
-          <div class="gc-slide"><img data-src="./images/london-18.jpg" alt="Doha Fashion Show runway look 22" decoding="async"></div>
-          <div class="gc-slide"><img data-src="./images/london-19.jpg" alt="Doha Fashion Show runway look 23" decoding="async"></div>
-          <div class="gc-slide"><img data-src="./images/london-20.jpg" alt="Doha Fashion Show runway look 24" decoding="async"></div>
-          <div class="gc-slide"><img data-src="./images/london-44.jpg" alt="Doha Fashion Show runway look 25" decoding="async"></div>
-          <div class="gc-slide"><img data-src="./images/london-21.jpg" alt="Doha Fashion Show runway look 26" decoding="async"></div>
-          <div class="gc-slide"><img data-src="./images/london-22.jpg" alt="Doha Fashion Show runway look 27" decoding="async"></div>
-          <div class="gc-slide"><img data-src="./images/london-23.jpg" alt="Doha Fashion Show runway look 28" decoding="async"></div>
-          <div class="gc-slide"><img data-src="./images/london-24.jpg" alt="Doha Fashion Show runway look 29" decoding="async"></div>
-          <div class="gc-slide"><img data-src="./images/london-45.jpg" alt="Doha Fashion Show runway look 30" decoding="async"></div>
-          <div class="gc-slide"><img data-src="./images/london-25.jpg" alt="Doha Fashion Show runway look 31" decoding="async"></div>
-          <div class="gc-slide"><img data-src="./images/london-26.jpg" alt="Doha Fashion Show runway look 32" decoding="async"></div>
-          <div class="gc-slide"><img data-src="./images/london-27.jpg" alt="Doha Fashion Show runway look 33" decoding="async"></div>
-          <div class="gc-slide"><img data-src="./images/london-28.jpg" alt="Doha Fashion Show runway look 34" decoding="async"></div>
-          <div class="gc-slide"><img data-src="./images/london-46.jpg" alt="Doha Fashion Show runway look 35" decoding="async"></div>
-          <div class="gc-slide"><img data-src="./images/london-29.jpg" alt="Doha Fashion Show runway look 36" decoding="async"></div>
-          <div class="gc-slide"><img data-src="./images/london-30.jpg" alt="Doha Fashion Show runway look 37" decoding="async"></div>
-          <div class="gc-slide"><img data-src="./images/london-31.jpg" alt="Doha Fashion Show runway look 38" decoding="async"></div>
-          <div class="gc-slide"><img data-src="./images/london-32.jpg" alt="Doha Fashion Show runway look 39" decoding="async"></div>
-          <div class="gc-slide"><img data-src="./images/london-47.jpg" alt="Doha Fashion Show runway look 40" decoding="async"></div>
-          <div class="gc-slide"><img data-src="./images/london-33.jpg" alt="Doha Fashion Show runway look 41" decoding="async"></div>
-          <div class="gc-slide"><img data-src="./images/london-34.jpg" alt="Doha Fashion Show runway look 42" decoding="async"></div>
-          <div class="gc-slide"><img data-src="./images/london-35.jpg" alt="Doha Fashion Show runway look 43" decoding="async"></div>
-          <div class="gc-slide"><img data-src="./images/london-36.jpg" alt="Doha Fashion Show runway look 44" decoding="async"></div>
-          <div class="gc-slide"><img data-src="./images/london-37.jpg" alt="Doha Fashion Show runway look 45" decoding="async"></div>
-          <div class="gc-slide"><img data-src="./images/london-38.jpg" alt="Doha Fashion Show runway look 46" decoding="async"></div>
-          <div class="gc-slide"><img data-src="./images/london-39.jpg" alt="Doha Fashion Show runway look 47" decoding="async"></div>
-          <div class="gc-slide"><img data-src="./images/img_12.jpg" alt="Doha Fashion Show runway look 48" decoding="async"></div>
-          <div class="gc-slide"><img data-src="./images/img_15.jpg" alt="Doha Fashion Show runway look 49" decoding="async"></div>
-          <div class="gc-slide"><img data-src="./images/navy-dress.png" alt="Doha Fashion Show runway look 50" decoding="async"></div>
-        </div>
-      </div>
-      <button class="gc-arrow gc-next" id="gcNext" aria-label="Next">&#8250;</button>
-      <div class="gc-dots" id="gcDots"></div>
+  </div>
+  <div class="g-rail reveal" id="gRail" tabindex="0" aria-label="Runway gallery, scroll sideways">
+        <img src="./images/london-01.jpg" alt="Doha Fashion Show runway look 1" loading="eager" decoding="async" draggable="false">
+        <img src="./images/london-02.jpg" alt="Doha Fashion Show runway look 2" loading="eager" decoding="async" draggable="false">
+        <img src="./images/london-03.jpg" alt="Doha Fashion Show runway look 3" loading="eager" decoding="async" draggable="false">
+        <img src="./images/london-04.jpg" alt="Doha Fashion Show runway look 4" loading="eager" decoding="async" draggable="false">
+        <img src="./images/london-40.jpg" alt="Doha Fashion Show runway look 5" loading="lazy" decoding="async" draggable="false">
+        <img src="./images/london-05.jpg" alt="Doha Fashion Show runway look 6" loading="lazy" decoding="async" draggable="false">
+        <img src="./images/london-06.jpg" alt="Doha Fashion Show runway look 7" loading="lazy" decoding="async" draggable="false">
+        <img src="./images/london-07.jpg" alt="Doha Fashion Show runway look 8" loading="lazy" decoding="async" draggable="false">
+        <img src="./images/london-08.jpg" alt="Doha Fashion Show runway look 9" loading="lazy" decoding="async" draggable="false">
+        <img src="./images/london-41.jpg" alt="Doha Fashion Show runway look 10" loading="lazy" decoding="async" draggable="false">
+        <img src="./images/london-09.jpg" alt="Doha Fashion Show runway look 11" loading="lazy" decoding="async" draggable="false">
+        <img src="./images/london-10.jpg" alt="Doha Fashion Show runway look 12" loading="lazy" decoding="async" draggable="false">
+        <img src="./images/london-11.jpg" alt="Doha Fashion Show runway look 13" loading="lazy" decoding="async" draggable="false">
+        <img src="./images/london-12.jpg" alt="Doha Fashion Show runway look 14" loading="lazy" decoding="async" draggable="false">
+        <img src="./images/london-42.jpg" alt="Doha Fashion Show runway look 15" loading="lazy" decoding="async" draggable="false">
+        <img src="./images/london-13.jpg" alt="Doha Fashion Show runway look 16" loading="lazy" decoding="async" draggable="false">
+        <img src="./images/london-14.jpg" alt="Doha Fashion Show runway look 17" loading="lazy" decoding="async" draggable="false">
+        <img src="./images/london-15.jpg" alt="Doha Fashion Show runway look 18" loading="lazy" decoding="async" draggable="false">
+        <img src="./images/london-16.jpg" alt="Doha Fashion Show runway look 19" loading="lazy" decoding="async" draggable="false">
+        <img src="./images/london-43.jpg" alt="Doha Fashion Show runway look 20" loading="lazy" decoding="async" draggable="false">
+        <img src="./images/london-17.jpg" alt="Doha Fashion Show runway look 21" loading="lazy" decoding="async" draggable="false">
+        <img src="./images/london-18.jpg" alt="Doha Fashion Show runway look 22" loading="lazy" decoding="async" draggable="false">
+        <img src="./images/london-19.jpg" alt="Doha Fashion Show runway look 23" loading="lazy" decoding="async" draggable="false">
+        <img src="./images/london-20.jpg" alt="Doha Fashion Show runway look 24" loading="lazy" decoding="async" draggable="false">
+        <img src="./images/london-44.jpg" alt="Doha Fashion Show runway look 25" loading="lazy" decoding="async" draggable="false">
+        <img src="./images/london-21.jpg" alt="Doha Fashion Show runway look 26" loading="lazy" decoding="async" draggable="false">
+        <img src="./images/london-22.jpg" alt="Doha Fashion Show runway look 27" loading="lazy" decoding="async" draggable="false">
+        <img src="./images/london-23.jpg" alt="Doha Fashion Show runway look 28" loading="lazy" decoding="async" draggable="false">
+        <img src="./images/london-24.jpg" alt="Doha Fashion Show runway look 29" loading="lazy" decoding="async" draggable="false">
+        <img src="./images/london-45.jpg" alt="Doha Fashion Show runway look 30" loading="lazy" decoding="async" draggable="false">
+        <img src="./images/london-25.jpg" alt="Doha Fashion Show runway look 31" loading="lazy" decoding="async" draggable="false">
+        <img src="./images/london-26.jpg" alt="Doha Fashion Show runway look 32" loading="lazy" decoding="async" draggable="false">
+        <img src="./images/london-27.jpg" alt="Doha Fashion Show runway look 33" loading="lazy" decoding="async" draggable="false">
+        <img src="./images/london-28.jpg" alt="Doha Fashion Show runway look 34" loading="lazy" decoding="async" draggable="false">
+        <img src="./images/london-46.jpg" alt="Doha Fashion Show runway look 35" loading="lazy" decoding="async" draggable="false">
+        <img src="./images/london-29.jpg" alt="Doha Fashion Show runway look 36" loading="lazy" decoding="async" draggable="false">
+        <img src="./images/london-30.jpg" alt="Doha Fashion Show runway look 37" loading="lazy" decoding="async" draggable="false">
+        <img src="./images/london-31.jpg" alt="Doha Fashion Show runway look 38" loading="lazy" decoding="async" draggable="false">
+        <img src="./images/london-32.jpg" alt="Doha Fashion Show runway look 39" loading="lazy" decoding="async" draggable="false">
+        <img src="./images/london-47.jpg" alt="Doha Fashion Show runway look 40" loading="lazy" decoding="async" draggable="false">
+        <img src="./images/london-33.jpg" alt="Doha Fashion Show runway look 41" loading="lazy" decoding="async" draggable="false">
+        <img src="./images/london-34.jpg" alt="Doha Fashion Show runway look 42" loading="lazy" decoding="async" draggable="false">
+        <img src="./images/london-35.jpg" alt="Doha Fashion Show runway look 43" loading="lazy" decoding="async" draggable="false">
+        <img src="./images/london-36.jpg" alt="Doha Fashion Show runway look 44" loading="lazy" decoding="async" draggable="false">
+        <img src="./images/london-37.jpg" alt="Doha Fashion Show runway look 45" loading="lazy" decoding="async" draggable="false">
+        <img src="./images/london-38.jpg" alt="Doha Fashion Show runway look 46" loading="lazy" decoding="async" draggable="false">
+        <img src="./images/london-39.jpg" alt="Doha Fashion Show runway look 47" loading="lazy" decoding="async" draggable="false">
+        <img src="./images/img_12.jpg" alt="Doha Fashion Show runway look 48" loading="lazy" decoding="async" draggable="false">
+        <img src="./images/img_15.jpg" alt="Doha Fashion Show runway look 49" loading="lazy" decoding="async" draggable="false">
+        <img src="./images/navy-dress.png" alt="Doha Fashion Show runway look 50" loading="lazy" decoding="async" draggable="false">
+  </div>
+  <div class="g-rail-foot">
+    <span class="g-rail-count" id="gRailCount"></span>
+    <div>
+      <button class="gc-arrow" id="gPrev" aria-label="Scroll gallery left">&#8249;</button>
+      <button class="gc-arrow" id="gNext" aria-label="Scroll gallery right">&#8250;</button>
     </div>
   </div>
 </section>
@@ -2108,56 +2089,32 @@ function triggerArabicTranslate() {
     lastScroll = y;
   });
 
-  // Gallery carousel
+  // Gallery rail
   (function(){
-    const track = document.getElementById('gcTrack');
-    const slides = track ? Array.from(track.children) : [];
-    const dotsWrap = document.getElementById('gcDots');
-    if (!track || !slides.length) return;
-    let i = 0;
-    const total = slides.length;
-    const useCount = total > 10;
-    if (useCount) { dotsWrap.classList.add('gc-count'); }
-    else slides.forEach((_,n)=>{
-      const d=document.createElement('div'); d.className='gc-dot'+(n===0?' active':'');
-      d.addEventListener('click',()=>go(n)); dotsWrap.appendChild(d);
-    });
-    const dots = Array.from(dotsWrap.children);
-    // Load images only as they come up, to keep the page light
-    function load(n){
-      const img = slides[(n+total)%total].querySelector('img[data-src]');
-      if (img) { img.src = img.dataset.src; img.removeAttribute('data-src'); }
+    const rail = document.getElementById('gRail');
+    if (!rail) return;
+    const imgs = Array.from(rail.querySelectorAll('img'));
+    const count = document.getElementById('gRailCount');
+    const pad = n => String(n).padStart(2,'0');
+    const step = () => (imgs[0].getBoundingClientRect().width + 10) * 2;
+    document.getElementById('gPrev').addEventListener('click', () => rail.scrollBy({left: -step(), behavior: 'smooth'}));
+    document.getElementById('gNext').addEventListener('click', () => rail.scrollBy({left: step(), behavior: 'smooth'}));
+    function update(){
+      const w = imgs[0].getBoundingClientRect().width + 10;
+      const first = Math.min(imgs.length, Math.round(rail.scrollLeft / w) + 1);
+      count.textContent = pad(first) + ' / ' + pad(imgs.length);
     }
-    function pad(n){ return String(n).padStart(2,'0'); }
-    function go(n){
-      i=(n+total)%total;
-      load(i); load(i+1); load(i-1);
-      track.style.transform='translateX('+(-i*100)+'%)';
-      if (useCount) dotsWrap.textContent = pad(i+1)+' / '+pad(total);
-      else dots.forEach((d,k)=>d.classList.toggle('active',k===i));
-    }
-    go(0);
-    document.getElementById('gcPrev').addEventListener('click',()=>go(i-1));
-    document.getElementById('gcNext').addEventListener('click',()=>go(i+1));
-    // keyboard when carousel in view
-    document.addEventListener('keydown',e=>{
-      const r=document.getElementById('galleryCarousel').getBoundingClientRect();
-      if(r.top<window.innerHeight && r.bottom>0){
-        if(e.key==='ArrowRight')go(i+1); else if(e.key==='ArrowLeft')go(i-1);
-      }
+    rail.addEventListener('scroll', () => requestAnimationFrame(update), {passive:true});
+    update();
+    rail.addEventListener('keydown', e => {
+      if (e.key === 'ArrowRight') { rail.scrollBy({left: step()/2, behavior: 'smooth'}); e.preventDefault(); }
+      if (e.key === 'ArrowLeft')  { rail.scrollBy({left: -step()/2, behavior: 'smooth'}); e.preventDefault(); }
     });
-    // swipe
-    let sx=0;
-    track.addEventListener('touchstart',e=>{sx=e.changedTouches[0].clientX;},{passive:true});
-    track.addEventListener('touchend',e=>{
-      const dx=e.changedTouches[0].clientX-sx;
-      if(Math.abs(dx)>45) go(dx<0?i+1:i-1);
-    },{passive:true});
-    // autoplay, pause on hover
-    let timer=setInterval(()=>go(i+1),5000);
-    const car=document.getElementById('galleryCarousel');
-    car.addEventListener('mouseenter',()=>clearInterval(timer));
-    car.addEventListener('mouseleave',()=>timer=setInterval(()=>go(i+1),5000));
+    // drag to scroll with a mouse (touch scrolls natively)
+    let down = false, moved = false, x0 = 0, s0 = 0;
+    rail.addEventListener('pointerdown', e => { if (e.pointerType !== 'mouse') return; down = true; moved = false; x0 = e.clientX; s0 = rail.scrollLeft; });
+    window.addEventListener('pointermove', e => { if (!down) return; const dx = e.clientX - x0; if (Math.abs(dx) > 4) { moved = true; rail.classList.add('dragging'); } rail.scrollLeft = s0 - dx; });
+    window.addEventListener('pointerup', () => { down = false; rail.classList.remove('dragging'); });
   })();
 
   // Countdown to Bridal Edition: 30 Jan 2027, Grand Hyatt Doha
