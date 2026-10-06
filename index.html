@@ -614,11 +614,15 @@
     margin-top: 70px;
     display: flex;
     align-items: center;
-    gap: 16px;
+    justify-content: center;
+    gap: 28px;
   }
+  /* Sized to a portrait frame so runway shots show head to toe, uncropped */
   .gc-viewport {
+    position: relative;
     overflow: hidden;
-    flex: 1;
+    flex: 0 1 auto;
+    width: min(100%, 480px, calc(76vh * 2 / 3));
     border-radius: 2px;
   }
   .gc-track {
@@ -628,13 +632,12 @@
   }
   .gc-slide {
     min-width: 100%;
-    aspect-ratio: 16/10;
-    background: #111;
+    aspect-ratio: 2/3;
+    background: #0d0d0d;
   }
   .gc-slide img {
     width: 100%; height: 100%;
-    object-fit: cover;
-    object-position: center 30%;
+    object-fit: contain;
     display: block;
   }
   .gc-arrow {
@@ -1110,8 +1113,6 @@
     /* GALLERY */
     .gallery-carousel { gap: 6px; margin-top: 50px; }
     .gc-arrow { width: 40px; height: 40px; font-size: 1.2rem; }
-    .gc-slide { aspect-ratio: 3/4; }
-    .gc-slide img { object-position: center 25%; }
 
     /* VENUE */
     .venue-section { grid-template-columns: 1fr; padding: 60px 20px; gap: 32px; }
@@ -1620,14 +1621,9 @@ function triggerArabicTranslate() {
       <button class="gc-arrow gc-prev" id="gcPrev" aria-label="Previous">&#8249;</button>
       <div class="gc-viewport">
         <div class="gc-track" id="gcTrack">
-          <div class="gc-slide"><img src="./images/gallery-gold.jpg" alt="DFS Look 1"></div>
           <div class="gc-slide"><img src="./images/img_12.jpg" alt="DFS Look 2"></div>
-          <div class="gc-slide"><img src="./images/img_13.jpg" alt="DFS Look 3"></div>
-          <div class="gc-slide"><img src="./images/img_14.jpg" alt="DFS Look 4"></div>
           <div class="gc-slide"><img src="./images/img_15.jpg" alt="DFS Look 5"></div>
           <div class="gc-slide"><img src="./images/navy-dress.png" alt="DFS Look 6"></div>
-          <div class="gc-slide"><img src="./images/gallery-orange.jpg" alt="DFS Look 7"></div>
-          <div class="gc-slide"><img src="./images/pale-yellow-dress.png" alt="DFS Look 8"></div>
         </div>
       </div>
       <button class="gc-arrow gc-next" id="gcNext" aria-label="Next">&#8250;</button>
