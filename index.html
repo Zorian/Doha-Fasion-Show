@@ -267,7 +267,7 @@
 
   .gateway-grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 2px;
     max-width: 1400px;
     margin: 0 auto;
@@ -294,6 +294,7 @@
   .gateway-card:nth-child(3) .gateway-card-bg { background: linear-gradient(170deg, #12100a 0%, #0e0c06 100%); }
   .gateway-card:nth-child(4) .gateway-card-bg { background: linear-gradient(170deg, #0e0e0e 0%, #1a1208 100%); }
   .gateway-card:nth-child(5) .gateway-card-bg { background: linear-gradient(170deg, #100e08 0%, #0e0e0e 100%); }
+  .gateway-card:nth-child(6) .gateway-card-bg { background: linear-gradient(170deg, #0e0c06 0%, #12100a 100%); }
 
   /* Real images (to be replaced) */
   .gateway-card-img {
@@ -804,6 +805,21 @@
   .form-group textarea { resize: vertical; min-height: 120px; }
   .form-group select option { background: #111; }
 
+  /* Multi-select chips (sponsorship goals) */
+  .form-group .form-chips { display: flex; flex-wrap: wrap; gap: 10px; }
+  .form-group .form-chips label {
+    margin: 0; position: relative;
+    font-size: 0.7rem; letter-spacing: 0.04em; text-transform: none;
+    color: var(--off-white);
+    border: 1px solid rgba(245,240,232,0.15);
+    padding: 11px 18px; cursor: pointer;
+    transition: border-color 0.2s, background 0.2s, color 0.2s;
+  }
+  .form-group .form-chips input { position: absolute; opacity: 0; width: 1px; height: 1px; padding: 0; border: 0; pointer-events: none; }
+  .form-group .form-chips label:has(input:checked) { border-color: var(--gold); background: rgba(201,168,76,0.1); color: var(--gold); }
+  .form-group .form-chips label:has(input:focus-visible) { outline: 1px solid var(--gold); outline-offset: 2px; }
+  .form-hint { font-size: 0.68rem; color: var(--gray); line-height: 1.7; margin: -14px 0 24px; }
+
   .form-file-label {
     display: flex; align-items: center; gap: 16px;
     border: 1px dashed rgba(201,168,76,0.3);
@@ -1036,7 +1052,6 @@
   /* Mobile */
   @media (max-width: 1100px) {
     .gateway-grid { grid-template-columns: repeat(3, 1fr); }
-    .gateway-card:nth-child(4), .gateway-card:nth-child(5) { display: none; }
   }
   @media (max-width: 768px) {
     /* CURSOR */
@@ -1336,6 +1351,7 @@ function triggerArabicTranslate() {
     <li><a href="#models">Models</a></li>
     <li><a href="#show-dates">Show Dates</a></li>
     <li><a href="#collabs">Collabs</a></li>
+    <li><a href="#sponsorships">Sponsors</a></li>
     <li><a href="#media">Media</a></li>
     <li><a href="#gallery">Gallery</a></li>
   </ul>
@@ -1431,8 +1447,22 @@ function triggerArabicTranslate() {
         <span class="gateway-card-num">04</span>
         <p class="gateway-card-category">Partnerships</p>
         <h3 class="gateway-card-title">Collabs</h3>
-        <p class="gateway-card-desc">Create high-impact fashion moments on the runway and online. Let's build something extraordinary together.</p>
-        <a href="#forms" class="gateway-btn" onclick="openForm('collabs')">Partner With Us</a>
+        <p class="gateway-card-desc">Brands, creators and venues: bring your product, platform or space and create something with us.</p>
+        <a href="#forms" class="gateway-btn" onclick="openForm('collabs')">Collaborate With Us</a>
+      </div>
+    </div>
+
+    <!-- SPONSORSHIPS -->
+    <div class="gateway-card reveal" id="sponsorships">
+      <div class="gateway-card-bg"></div>
+      <div class="gateway-card-img" style="background-image:url('./images/card-sponsorships.jpg');background-position:center 15%"></div>
+      <div class="gateway-card-overlay"></div>
+      <div class="gateway-card-content">
+        <span class="gateway-card-num">05</span>
+        <p class="gateway-card-category">Sponsorship</p>
+        <h3 class="gateway-card-title">Sponsors</h3>
+        <p class="gateway-card-desc">Put your brand on the runway. Every partnership is built around your goals.</p>
+        <a href="#forms" class="gateway-btn" onclick="openForm('sponsorships')">Become a Sponsor</a>
       </div>
     </div>
 
@@ -1442,7 +1472,7 @@ function triggerArabicTranslate() {
       <div class="gateway-card-img" style="background-image:url('./images/gold-dress.png');background-position:center 10%"></div>
       <div class="gateway-card-overlay"></div>
       <div class="gateway-card-content">
-        <span class="gateway-card-num">05</span>
+        <span class="gateway-card-num">06</span>
         <p class="gateway-card-category">Press</p>
         <h3 class="gateway-card-title">Media</h3>
         <p class="gateway-card-desc">Accredited press gain exclusive access to runway, backstage, and interviews with designers.</p>
@@ -1644,6 +1674,7 @@ function triggerArabicTranslate() {
     <button class="form-tab active" onclick="openForm('designers')">Designers</button>
     <button class="form-tab" onclick="openForm('models')">Models</button>
     <button class="form-tab" onclick="openForm('collabs')">Collabs</button>
+    <button class="form-tab" onclick="openForm('sponsorships')">Sponsors</button>
     <button class="form-tab" onclick="openForm('media')">Media</button>
   </div>
 
@@ -1789,36 +1820,108 @@ function triggerArabicTranslate() {
     <form name="collabs" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="dfs-form">
       <input type="hidden" name="form-name" value="collabs">
       <input type="hidden" name="bot-field" style="display:none">
-      <div class="form-section-title">Partner <em>With Us</em></div>
-      <p class="form-section-desc">Create high-impact fashion moments on the runway and online. Let's build something extraordinary together.</p>
+      <div class="form-section-title">Collaborate <em>With Us</em></div>
+      <p class="form-section-desc">For brands, creators, media and venues who want to create something together. Looking to sponsor? Use the Sponsors tab.</p>
       <div class="form-row">
-        <div class="form-group"><label>Company Name <span class="req">*</span></label><input type="text" name="company-name" required placeholder="Your company or brand"></div>
+        <div class="form-group"><label>Company / Brand <span class="req">*</span></label><input type="text" name="company-name" required placeholder="Your company or brand"></div>
         <div class="form-group"><label>Contact Name <span class="req">*</span></label><input type="text" name="contact-name" required placeholder="Your full name"></div>
       </div>
       <div class="form-row">
         <div class="form-group"><label>Email <span class="req">*</span></label><input type="email" name="email" required placeholder="your@email.com"></div>
-        <div class="form-group"><label>Phone Number</label><input type="tel" name="phone" placeholder="+1 000 000 0000"></div>
+        <div class="form-group"><label>Phone / WhatsApp</label><input type="tel" name="phone" placeholder="+974 0000 0000"></div>
       </div>
+      <div class="form-group"><label>Instagram or Website</label><input type="text" name="instagram-website" placeholder="@handle or www.yourbrand.com"></div>
       <div class="form-group"><label>Collaboration Type <span class="req">*</span></label>
         <select name="collab-type" required>
           <option value="" disabled selected>Select type</option>
-          <option>Runway Integration</option><option>Designer x Brand Capsules</option><option>Pop Ups & Showcases</option><option>Installation & Takeovers</option><option>Content & Broadcast</option><option>Talks & Workshops</option><option>Hospitality & VIP</option><option>Community & CSR</option>
+          <option>Product Placement &amp; Gifting</option><option>Designer x Brand Capsule</option><option>Content Creator / Influencer</option><option>Media Partnership</option><option>Venue &amp; Hospitality</option><option>Community &amp; CSR</option><option>Bespoke (tell us below)</option>
         </select>
       </div>
-      <div class="form-group"><label>Budget Range <span class="req">*</span></label>
-        <select name="budget" required>
-          <option value="" disabled selected>Select range</option>
-          <option>$10,000 – $25,000</option><option>$25,000 – $50,000</option><option>$50,000 – $100,000</option><option>$100,000+</option>
+      <div class="form-group"><label>What will you bring? <span class="req">*</span></label><textarea name="offering" rows="3" required placeholder="Your product, venue, audience, content or skills"></textarea></div>
+      <div class="form-group"><label>What are you looking for?</label><textarea name="looking-for" rows="3" placeholder="Exposure, content, access to the show, new clients..."></textarea></div>
+      <div class="form-row">
+        <div class="form-group"><label>Which show? <span class="req">*</span></label>
+          <select name="show" required>
+            <option value="" disabled selected>Select show</option>
+            <option>Bridal Edition (30–31 Jan 2027)</option><option>Morocco Edition (17 Apr 2027)</option><option>Season V FIBA Edition (25–26 Aug 2027)</option><option>Any / year round</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Do you have a budget in mind? <span class="req">*</span></label>
+          <select name="budget" required>
+            <option value="" disabled selected>Select budget</option>
+            <option>No budget ($0)</option><option>Under $2,500</option><option>$2,500 – $5,000</option><option>$5,000 – $15,000</option><option>$15,000+</option><option>Not sure yet</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group"><label>Anything else?</label><textarea name="additional-info" rows="3" placeholder="Ideas, links or questions"></textarea></div>
+      <button type="submit" class="form-submit">Send Collaboration Request</button>
+    </form>
+  </div>
+
+  <!-- SPONSORSHIPS FORM -->
+  <div class="form-panel" id="form-sponsorships">
+    <form name="sponsorships" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="dfs-form">
+      <input type="hidden" name="form-name" value="sponsorships">
+      <input type="hidden" name="bot-field" style="display:none">
+      <div class="form-section-title">Sponsor <em>Doha Fashion Show</em></div>
+      <p class="form-section-desc">Tell us about your brand and goals. Our partnerships team will come back to you with a proposal built around them.</p>
+      <div class="form-row">
+        <div class="form-group"><label>Company <span class="req">*</span></label><input type="text" name="company-name" required placeholder="Company or brand"></div>
+        <div class="form-group"><label>Website</label><input type="text" name="website" placeholder="www.yourbrand.com"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Contact Name <span class="req">*</span></label><input type="text" name="contact-name" required placeholder="Your full name"></div>
+        <div class="form-group"><label>Job Title <span class="req">*</span></label><input type="text" name="job-title" required placeholder="e.g. Marketing Director"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Email <span class="req">*</span></label><input type="email" name="email" required placeholder="you@company.com"></div>
+        <div class="form-group"><label>Phone / WhatsApp <span class="req">*</span></label><input type="tel" name="phone" required placeholder="+974 0000 0000"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Industry <span class="req">*</span></label>
+          <select name="industry" required>
+            <option value="" disabled selected>Select industry</option>
+            <option>Beauty &amp; Cosmetics</option><option>Jewellery &amp; Watches</option><option>Fashion &amp; Accessories</option><option>Sportswear &amp; Sports</option><option>Automotive</option><option>Hospitality &amp; Travel</option><option>Food &amp; Beverage</option><option>Finance &amp; Banking</option><option>Technology</option><option>Other</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Which show? <span class="req">*</span></label>
+          <select name="show" required>
+            <option value="" disabled selected>Select show</option>
+            <option>Bridal Edition (30–31 Jan 2027)</option><option>Morocco Edition (17 Apr 2027)</option><option>Season V FIBA Edition (25–26 Aug 2027)</option><option>Multiple shows / annual partner</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group"><label>Sponsorship Interest <span class="req">*</span></label>
+        <select name="sponsorship-type" required>
+          <option value="" disabled selected>Select interest</option>
+          <option>Title Partner</option><option>Official Category Partner (e.g. Official Beauty Partner)</option><option>Runway Integration</option><option>Activation / Pop Up</option><option>Hospitality &amp; VIP</option><option>Content &amp; Broadcast</option><option>Bespoke (tell us below)</option>
         </select>
       </div>
-      <div class="form-group"><label>Preferred Timeline</label>
-        <select name="timeline">
-          <option value="" disabled selected>Select timeline</option>
-          <option>Q4 2026 (Oct – Dec)</option><option>Q1 2027 (Jan – Mar)</option><option>Q2 2027 (Apr – Jun)</option><option>Q3 2027 (Jul – Sep)</option><option>Q4 2027 (Oct – Dec)</option>
-        </select>
+      <div class="form-group"><label>Your Goals</label>
+        <div class="form-chips">
+          <label><input type="checkbox" name="goals[]" value="Brand awareness">Brand awareness</label>
+          <label><input type="checkbox" name="goals[]" value="Leads and sales">Leads and sales</label>
+          <label><input type="checkbox" name="goals[]" value="Content">Content</label>
+          <label><input type="checkbox" name="goals[]" value="VIP and client access">VIP and client access</label>
+          <label><input type="checkbox" name="goals[]" value="Product launch">Product launch</label>
+        </div>
       </div>
-      <div class="form-group"><label>Additional Information</label><textarea name="additional-info" rows="4" placeholder="Any additional details, special requirements, or questions..."></textarea></div>
-      <button type="submit" class="form-submit">Submit Collaboration Request</button>
+      <div class="form-row">
+        <div class="form-group"><label>Budget (USD) <span class="req">*</span></label>
+          <select name="budget" required>
+            <option value="" disabled selected>Select range</option>
+            <option>$15,000 – $30,000</option><option>$30,000 – $60,000</option><option>$60,000 – $120,000</option><option>$120,000+</option><option>Prefer to discuss</option>
+          </select>
+        </div>
+        <div class="form-group"><label>When are you looking to decide?</label>
+          <select name="decision-timeline">
+            <option value="" disabled selected>Select timeline</option>
+            <option>As soon as possible</option><option>Within 1–3 months</option><option>Within 3–6 months</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group"><label>Tell us more</label><textarea name="additional-info" rows="4" placeholder="Your brand, products, audience, or ideas for the partnership"></textarea></div>
+      <button type="submit" class="form-submit">Send Sponsorship Enquiry</button>
     </form>
   </div>
 
@@ -1886,6 +1989,7 @@ function triggerArabicTranslate() {
         <li><a href="#models">Models</a></li>
         <li><a href="#show-dates">Show Dates</a></li>
         <li><a href="#collabs">Collabs</a></li>
+        <li><a href="#sponsorships">Sponsors</a></li>
         <li><a href="#media">Media</a></li>
         <li><a href="#gallery">Gallery</a></li>
       </ul>
@@ -2029,7 +2133,7 @@ function triggerArabicTranslate() {
   // Form tabs
   function openForm(id) {
     document.querySelectorAll('.form-tab').forEach((t, i) => {
-      const ids = ['designers','models','collabs','media'];
+      const ids = ['designers','models','collabs','sponsorships','media'];
       t.classList.toggle('active', ids[i] === id);
     });
     document.querySelectorAll('.form-panel').forEach(p => {
@@ -2160,7 +2264,7 @@ function triggerArabicTranslate() {
   var FORM_EMAIL = '';
   if (!FORM_EMAIL) return;
   var endpoint = 'https://formsubmit.co/ajax/' + FORM_EMAIL;
-  var labels = { designers: 'Designer Application', models: 'Model Application', collabs: 'Collaboration Request', media: 'Media Accreditation' };
+  var labels = { designers: 'Designer Application', models: 'Model Application', collabs: 'Collaboration Request', sponsorships: 'Sponsorship Enquiry', media: 'Media Accreditation' };
   document.querySelectorAll('form.dfs-form').forEach(function (form) {
     form.removeAttribute('data-netlify');
     form.addEventListener('submit', function (e) {
